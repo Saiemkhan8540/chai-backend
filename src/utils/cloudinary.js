@@ -24,5 +24,6 @@ cloudinary.config({
         fs.unlikeSync(localFilePath) // remove the locally saved temporary file as the upload operation got failed
         return null;
   }
+}  
 
 export {uploadOnCloudinary}
