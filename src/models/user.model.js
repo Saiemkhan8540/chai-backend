@@ -1,6 +1,6 @@
-import mongoose, {schema} from "mongoose";
+import mongoose, {Schema} from "mongoose";
 import jwt from "jsonwebtoken"
-import bcrypt from "bcrypt"
+import bcrypt from "bcryptjs";
 
 
 const userSchema = new Schema(
@@ -26,7 +26,7 @@ const userSchema = new Schema(
         trim: true,
         index: true 
     },
-    avator: {
+    avatar: {
         type: String,
         required: true,
     },
@@ -62,10 +62,10 @@ userSchema.pre("save", async function (next) {
 })
 
 userSchema.methods.isPasswordCorrect = async function(password){
-    await bcrypt.compare(password, this.password)
+    return await bcrypt.compare(password, this.password)
 }
 
-userSchema.methods.generateAcessToken = function(){
+userSchema.methods.generateAccessToken = function(){
     return jwt.sign(
         {
             _id: this._id,
@@ -92,6 +92,6 @@ userSchema.methods.generateRefreshToken = function(){
     )
 }
 
-videoSchema.plugin(mongooseAggregatePaginate)
 
-export const User = mongoose.model("user", userSchema)
+
+export const User = mongoose.model("User", userSchema)
